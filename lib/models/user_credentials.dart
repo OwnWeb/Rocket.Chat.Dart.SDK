@@ -8,5 +8,5 @@ class UserCredentials {
   String name;
   String password;
 
-  UserCredentials({this.email, this.password});
+  UserCredentials({this.email, this.password, this.token});
 }
