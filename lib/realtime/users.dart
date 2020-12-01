@@ -76,4 +76,15 @@ abstract class _ClientUsersMixin implements _DdpClientWrapper {
         .catchError((error) => completer.completeError(error));
     return completer.future;
   }
+
+  Future<User> logout() {
+    dynamic request;
+    Completer<User> completer = Completer();
+    this
+        ._getDdpClient()
+        .call('logout', [request])
+        .then((call) => completer.complete(null))
+        .catchError((error) => completer.completeError(error));
+    return completer.future;
+  }
 }

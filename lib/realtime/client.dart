@@ -82,6 +82,9 @@ class Client extends Object
 
   void addStatusListener(_StatusListener listener) =>
       this._getDdpClient().addStatusListener(listener);
+
+  void removeStatusListener(_StatusListener listener) =>
+      this._getDdpClient().removeStatusListener(listener);
 }
 
 final Random _random = Random(DateTime.now().millisecondsSinceEpoch);

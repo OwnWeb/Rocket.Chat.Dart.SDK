@@ -31,6 +31,21 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
     return completer.future;
   }
 
+  Future<void> logout() {
+    Completer<void> completer = Completer();
+
+    http
+        .post('${_getUrl()}/logout',
+            headers: {
+              'Content-Type': 'application/json',
+            })
+        .then((response) {
+      this._auth = null;
+      completer.complete(null);
+    }).catchError((error) => completer.completeError(error));
+    return completer.future;
+  }
+
   setCredentials(UserCredentials credentials) {
     this._auth = _AuthInfo(credentials.id, credentials.token);
   }
