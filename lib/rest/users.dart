@@ -5,16 +5,16 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
     Completer<void> completer = Completer();
     Map<String, String> body = {};
 
-      if (credentials.token != null) {
-        body = <String, String>{
-          'resume': credentials.token,
-        };
-      } else {
-        body = <String, String>{
-          'user': credentials.name ?? credentials.email,
-          'password': credentials.password,
-        };
-      }
+    if (credentials.token != null) {
+      body = <String, String>{
+        'resume': credentials.token,
+      };
+    } else {
+      body = <String, String>{
+        'user': credentials.name ?? credentials.email,
+        'password': credentials.password,
+      };
+    }
 
     http
         .post('${_getUrl()}/login',
@@ -34,12 +34,9 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
   Future<void> logout() {
     Completer<void> completer = Completer();
 
-    http
-        .post('${_getUrl()}/logout',
-            headers: {
-              'Content-Type': 'application/json',
-            })
-        .then((response) {
+    http.post('${_getUrl()}/logout', headers: {
+      'Content-Type': 'application/json',
+    }).then((response) {
       this._auth = null;
       completer.complete(null);
     }).catchError((error) => completer.completeError(error));
@@ -72,6 +69,24 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
       final data = json.decode(response.body)['result']['_id'];
       completer.complete(data);
     }).catchError((error) => completer.completeError(error));
+    return completer.future;
+  }
+
+  // savePushToken stores a push token and returns its id
+  Future<void> setAvatar(File file) {
+    Completer<void> completer = Completer();
+    http.MultipartRequest('POST', Uri.parse('${_getUrl()}/users.setAvatar'))
+      ..headers['X-User-Id'] = _auth._id
+      ..headers['X-Auth-Token'] = _auth._token
+      ..files.add(http.MultipartFile.fromBytes('image', file.readAsBytesSync()))
+      ..send().then((response) {
+        if (response.statusCode == 200) {
+          completer.complete();
+        } else {
+          completer.completeError(
+              HttpException(response.reasonPhrase, uri: response.request.url));
+        }
+      }).catchError((error) => completer.completeError(error));
     return completer.future;
   }
 }
