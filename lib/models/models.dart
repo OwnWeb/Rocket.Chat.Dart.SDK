@@ -6,6 +6,7 @@ part 'channel.dart';
 part 'info.dart';
 part 'message.dart';
 part 'models.g.dart';
+part 'notification_preferences.dart';
 part 'permissons.dart';
 part 'user.dart';
 part 'user_credentials.dart';
@@ -19,6 +20,8 @@ DateTime _fromJsonToDateTime(dynamic field) {
   }
   return null;
 }
+
+String _toJsonBool(bool value) => value ? '1' : '0';
 
 Map<String, int> DateTimeToMap(DateTime dt) {
   var r = Map<String, int>();

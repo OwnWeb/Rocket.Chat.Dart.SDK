@@ -293,6 +293,89 @@ Map<String, dynamic> _$AttachmentFieldToJson(AttachmentField instance) =>
       'value': instance.value,
     };
 
+NotificationPreferences _$NotificationPreferencesFromJson(
+    Map<String, dynamic> json) {
+  return NotificationPreferences()
+    ..desktopNotifications = _$enumDecodeNullable(
+            _$NotificationStatusEnumMap, json['desktopNotifications']) ??
+        NotificationStatus.DEFAULT
+    ..disableNotifications = json['disableNotifications'] as bool ?? false
+    ..emailNotifications = _$enumDecodeNullable(
+            _$NotificationStatusEnumMap, json['emailNotifications']) ??
+        NotificationStatus.DEFAULT
+    ..audioNotifications = _$enumDecodeNullable(
+            _$NotificationStatusEnumMap, json['audioNotifications']) ??
+        NotificationStatus.DEFAULT
+    ..mobilePushNotifications = _$enumDecodeNullable(
+            _$NotificationStatusEnumMap, json['mobilePushNotifications']) ??
+        NotificationStatus.DEFAULT
+    ..audioNotificationValue =
+        json['audioNotificationValue'] as String ?? 'beep'
+    ..desktopNotificationDuration =
+        json['desktopNotificationDuration'] as int ?? 0
+    ..unreadAlert =
+        _$enumDecodeNullable(_$NotificationStatusEnumMap, json['unreadAlert']) ??
+            NotificationStatus.DEFAULT
+    ..hideUnreadStatus = json['hideUnreadStatus'] as bool ?? false;
+}
+
+Map<String, dynamic> _$NotificationPreferencesToJson(
+        NotificationPreferences instance) =>
+    <String, dynamic>{
+      'desktopNotifications':
+          _$NotificationStatusEnumMap[instance.desktopNotifications],
+      'disableNotifications': _toJsonBool(instance.disableNotifications),
+      'emailNotifications':
+          _$NotificationStatusEnumMap[instance.emailNotifications],
+      'audioNotifications':
+          _$NotificationStatusEnumMap[instance.audioNotifications],
+      'mobilePushNotifications':
+          _$NotificationStatusEnumMap[instance.mobilePushNotifications],
+      'audioNotificationValue': instance.audioNotificationValue,
+      'desktopNotificationDuration': instance.desktopNotificationDuration,
+      'unreadAlert': _$NotificationStatusEnumMap[instance.unreadAlert],
+      'hideUnreadStatus': _toJsonBool(instance.hideUnreadStatus),
+    };
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$NotificationStatusEnumMap = {
+  NotificationStatus.NOTHING: 'nothing',
+  NotificationStatus.ALL: 'all',
+  NotificationStatus.MENTIONS: 'mentions',
+  NotificationStatus.DEFAULT: 'default',
+};
+
 User _$UserFromJson(Map<String, dynamic> json) {
   return User()
     ..id = json['_id'] as String

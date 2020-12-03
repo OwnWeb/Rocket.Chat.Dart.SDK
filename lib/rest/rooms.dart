@@ -17,23 +17,48 @@ abstract class _ClientRoomsMixin implements _ClientWrapper {
     }).catchError((error) => completer.completeError(error));
     return completer.future;
   }
+
   Future<Channel> roomsInfo(String roomId) {
     Completer<Channel> completer = Completer();
-    http
-        .get('${_getUrl()}/rooms.info?roomId=${roomId}',
-        headers: {
-          'X-User-Id': _auth._id,
-          'X-Auth-Token': _auth._token
-        })
-        .then((response) {
+    http.get('${_getUrl()}/rooms.info?roomId=${roomId}', headers: {
+      'X-User-Id': _auth._id,
+      'X-Auth-Token': _auth._token
+    }).then((response) {
       _hackResponseHeader(response);
-      if(response.statusCode == 200) {
+      if (response.statusCode == 200) {
         completer
             .complete(Channel.fromJson(json.decode(response.body)['room']));
       } else {
         completer.completeError(HttpException(response.reasonPhrase));
       }
     }).catchError((error) => completer.completeError(error));
+    return completer.future;
+  }
+
+  Future<void> saveNotification(
+      String roomId, NotificationPreferences preferences) async {
+    Completer<void> completer = Completer();
+    http
+        .post('${_getUrl()}/rooms.saveNotification',
+            headers: {
+              'X-User-Id': _auth._id,
+              'X-Auth-Token': _auth._token,
+              'Content-Type': 'application/json',
+            },
+            body: json.encode(<String, dynamic>{
+              'roomId': roomId,
+              'notifications': preferences.toJson()
+                ..removeWhere((key, value) => value == null)
+            }))
+        .then((response) {
+      _hackResponseHeader(response);
+      if (response.statusCode == 200) {
+        completer.complete();
+      } else {
+        completer.completeError(HttpException(response.reasonPhrase));
+      }
+    }).catchError((error) => completer.completeError(error));
+
     return completer.future;
   }
 }
