@@ -9,20 +9,13 @@ import 'package:enhanced_ddp/enhanced_ddp.dart' as ddp;
 import 'package:rocket_chat_dart/models/models.dart';
 
 part 'channels.dart';
-
 part 'emoji.dart';
-
 part 'events.dart';
-
-part 'messages.dart';
-
-part 'permissons.dart';
-
-part 'subscriptions.dart';
-
-part 'users.dart';
-
 part 'livechat.dart';
+part 'messages.dart';
+part 'permissons.dart';
+part 'subscriptions.dart';
+part 'users.dart';
 
 abstract class _DdpClientWrapper {
   ddp.DdpClient _getDdpClient();
@@ -52,7 +45,8 @@ class Client extends Object
       port = uri.port;
     }
     wsUrl = '$wsUrl://${uri.host}:$port${uri.path}/websocket';
-    this._ddp = ddp.DdpClient(name, wsUrl, uri.toString());
+    this._ddp = ddp.DdpClient(name, wsUrl, uri.toString(),
+        reconnectInterval: Duration(seconds: 2));
     if (debug) {
       this._ddp.setSocketLogActive(true);
     } else {
