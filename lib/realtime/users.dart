@@ -51,7 +51,7 @@ class _ddpPassword {
 }
 
 abstract class _ClientUsersMixin implements _DdpClientWrapper {
-  Future<User> login(UserCredentials credentials) {
+  Future<AuthInfo> login(UserCredentials credentials) {
     dynamic request;
     if (credentials.token != null && credentials != '') {
       request = _ddpTokenLoginRequest()..token = credentials.token;
@@ -65,11 +65,11 @@ abstract class _ClientUsersMixin implements _DdpClientWrapper {
           ..digest = digest.toString()
           ..algorithm = 'sha-256');
     }
-    Completer<User> completer = Completer();
+    Completer<AuthInfo> completer = Completer();
     this
         ._getDdpClient()
         .call('login', [request])
-        .then((call) => completer.complete(User()
+        .then((call) => completer.complete(AuthInfo()
           ..id = '${call.reply['id']}'
           ..token = '${call.reply['token']}'
           ..tokenExpires = call.reply['tokenExpires']['\$date']))

@@ -4,11 +4,12 @@ abstract class _ClientChatMixin implements _ClientWrapper {
   Future<List<Message>> getRoomDiscussions(String roomId) {
     Completer<List<Message>> completer = Completer();
     http.get('${_getUrl()}/chat.getDiscussions?roomId=${roomId}', headers: {
-      'X-User-Id': _auth._id,
-      'X-Auth-Token': _auth._token,
+      'X-User-Id': _auth.id,
+      'X-Auth-Token': _auth.token,
     }).then((response) {
       _hackResponseHeader(response);
-      final rawRoomsList = (json.decode(response.body)['messages'] ?? []) as List;
+      final rawRoomsList =
+          (json.decode(response.body)['messages'] ?? []) as List;
       final rooms = <Message>[];
       for (var raw in rawRoomsList) {
         rooms.add(Message.fromJson(raw));
@@ -23,8 +24,8 @@ abstract class _ClientChatMixin implements _ClientWrapper {
     http
         .post('${_getUrl()}/chat.sendMessage',
             headers: {
-              'X-User-Id': _auth._id,
-              'X-Auth-Token': _auth._token,
+              'X-User-Id': _auth.id,
+              'X-Auth-Token': _auth.token,
               'Content-Type': 'application/json',
             },
             body: json.encode(<String, dynamic>{
@@ -47,8 +48,8 @@ abstract class _ClientChatMixin implements _ClientWrapper {
       'shouldReact': shouldReact,
     });
     final headers = <String, String>{
-      'X-User-Id': _auth._id,
-      'X-Auth-Token': _auth._token,
+      'X-User-Id': _auth.id,
+      'X-Auth-Token': _auth.token,
       'Content-Type': 'application/json',
     };
     http

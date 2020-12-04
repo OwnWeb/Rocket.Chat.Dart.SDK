@@ -16,13 +16,21 @@ class User {
   @JsonKey(name: 'status')
   String status;
 
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserToJson(this);
+}
+
+@JsonSerializable()
+class AuthInfo {
+  AuthInfo();
+
+  @JsonKey(name: '_id')
+  String id;
+
   @JsonKey(name: 'token')
   String token;
 
   @JsonKey(name: 'tokenExpires')
   int tokenExpires;
-
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-
-  Map<String, dynamic> toJson() => _$UserToJson(this);
 }

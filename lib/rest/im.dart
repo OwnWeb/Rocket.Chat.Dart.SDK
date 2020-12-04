@@ -27,8 +27,8 @@ abstract class _ClientIMMixin implements _ClientWrapper {
       query.write('&unreads=$unreads');
     }
     http.get('${_getUrl()}/im.history?${query.toString()}', headers: {
-      'X-User-Id': _auth._id,
-      'X-Auth-Token': _auth._token,
+      'X-User-Id': _auth.id,
+      'X-Auth-Token': _auth.token,
     }).then((response) {
       _hackResponseHeader(response);
       final raws = json.decode(response.body)['messages'];
@@ -46,8 +46,8 @@ abstract class _ClientIMMixin implements _ClientWrapper {
     http
         .post('${_getUrl()}/im.create',
             headers: {
-              'X-User-Id': _auth._id,
-              'X-Auth-Token': _auth._token,
+              'X-User-Id': _auth.id,
+              'X-Auth-Token': _auth.token,
               'Content-Type': 'application/json',
             },
             body: json.encode(<String, String>{
@@ -64,8 +64,8 @@ abstract class _ClientIMMixin implements _ClientWrapper {
   Future<List<Channel>> listIMs() {
     Completer<List<Channel>> completer = Completer();
     http.get('${_getUrl()}/im.list', headers: {
-      'X-User-Id': _auth._id,
-      'X-Auth-Token': _auth._token,
+      'X-User-Id': _auth.id,
+      'X-Auth-Token': _auth.token,
     }).then((response) {
       _hackResponseHeader(response);
       final ims = json.decode(response.body)['ims'] as List;

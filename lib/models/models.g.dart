@@ -386,9 +386,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
     ..id = json['_id'] as String
     ..name = json['name'] as String
     ..userName = json['username'] as String
-    ..status = json['status'] as String
-    ..token = json['token'] as String
-    ..tokenExpires = json['tokenExpires'] as int;
+    ..status = json['status'] as String;
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -396,6 +394,17 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'name': instance.name,
       'username': instance.userName,
       'status': instance.status,
+    };
+
+AuthInfo _$AuthInfoFromJson(Map<String, dynamic> json) {
+  return AuthInfo()
+    ..id = json['_id'] as String
+    ..token = json['token'] as String
+    ..tokenExpires = json['tokenExpires'] as int;
+}
+
+Map<String, dynamic> _$AuthInfoToJson(AuthInfo instance) => <String, dynamic>{
+      '_id': instance.id,
       'token': instance.token,
       'tokenExpires': instance.tokenExpires,
     };

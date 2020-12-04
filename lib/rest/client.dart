@@ -17,13 +17,6 @@ part 'rooms.dart';
 part 'subscriptions.dart';
 part 'users.dart';
 
-class _AuthInfo {
-  _AuthInfo(this._id, this._token);
-
-  final String _id;
-  final String _token;
-}
-
 void _hackResponseHeader(http.Response response) {
   response.headers['content-type'] =
       '${response.headers['content-type']}; charset=utf-8';
@@ -32,7 +25,7 @@ void _hackResponseHeader(http.Response response) {
 abstract class _ClientWrapper {
   String _getUrl();
 
-  _AuthInfo _auth;
+  AuthInfo _auth;
 }
 
 class Client extends Object
@@ -54,7 +47,7 @@ class Client extends Object
   final bool debug;
 
   @override
-  _AuthInfo _auth;
+  AuthInfo _auth;
 
   Client(Uri uri, this.debug)
       : this.protocol = uri.scheme,

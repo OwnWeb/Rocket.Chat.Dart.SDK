@@ -27,8 +27,8 @@ abstract class _ClientGroupsMixin implements _ClientWrapper {
       query.write('&unreads=$unreads');
     }
     http.get('${_getUrl()}/groups.history?${query.toString()}', headers: {
-      'X-User-Id': _auth._id,
-      'X-Auth-Token': _auth._token,
+      'X-User-Id': _auth.id,
+      'X-Auth-Token': _auth.token,
     }).then((response) {
       _hackResponseHeader(response);
       final raws = json.decode(response.body)['messages'];
@@ -50,8 +50,8 @@ abstract class _ClientGroupsMixin implements _ClientWrapper {
     http
         .post('${_getUrl()}/groups.create',
             headers: {
-              'X-User-Id': _auth._id,
-              'X-Auth-Token': _auth._token,
+              'X-User-Id': _auth.id,
+              'X-Auth-Token': _auth.token,
               'Content-Type': 'application/json',
             },
             body: json.encode(<String, dynamic>{
@@ -71,8 +71,8 @@ abstract class _ClientGroupsMixin implements _ClientWrapper {
     http
         .post('${_getUrl()}/groups.setTopic',
             headers: {
-              'X-User-Id': _auth._id,
-              'X-Auth-Token': _auth._token,
+              'X-User-Id': _auth.id,
+              'X-Auth-Token': _auth.token,
               'Content-Type': 'application/json',
             },
             body: json.encode(<String, dynamic>{
@@ -90,8 +90,8 @@ abstract class _ClientGroupsMixin implements _ClientWrapper {
     http
         .post('${_getUrl()}/groups.invite',
             headers: {
-              'X-User-Id': _auth._id,
-              'X-Auth-Token': _auth._token,
+              'X-User-Id': _auth.id,
+              'X-Auth-Token': _auth.token,
               'Content-Type': 'application/json',
             },
             body: json.encode(<String, dynamic>{
@@ -110,8 +110,8 @@ abstract class _ClientGroupsMixin implements _ClientWrapper {
     http
         .post('${_getUrl()}/groups.kick',
             headers: {
-              'X-User-Id': _auth._id,
-              'X-Auth-Token': _auth._token,
+              'X-User-Id': _auth.id,
+              'X-Auth-Token': _auth.token,
               'Content-Type': 'application/json',
             },
             body: json.encode(<String, dynamic>{
@@ -130,8 +130,8 @@ abstract class _ClientGroupsMixin implements _ClientWrapper {
     http
         .post('${_getUrl()}/groups.leave',
             headers: {
-              'X-User-Id': _auth._id,
-              'X-Auth-Token': _auth._token,
+              'X-User-Id': _auth.id,
+              'X-Auth-Token': _auth.token,
               'Content-Type': 'application/json',
             },
             body: json.encode(<String, dynamic>{
@@ -158,8 +158,8 @@ abstract class _ClientGroupsMixin implements _ClientWrapper {
       query.write('&count=$count');
     }
     http.get('${_getUrl()}/groups.members?${query.toString()}', headers: {
-      'X-User-Id': _auth._id,
-      'X-Auth-Token': _auth._token,
+      'X-User-Id': _auth.id,
+      'X-Auth-Token': _auth.token,
     }).then((response) {
       _hackResponseHeader(response);
       final rawResponse = json.decode(response.body);
@@ -174,8 +174,8 @@ abstract class _ClientGroupsMixin implements _ClientWrapper {
   Future<List<Channel>> listGroups() {
     Completer<List<Channel>> completer = Completer();
     http.get('${_getUrl()}/groups.list', headers: {
-      'X-User-Id': _auth._id,
-      'X-Auth-Token': _auth._token,
+      'X-User-Id': _auth.id,
+      'X-Auth-Token': _auth.token,
     }).then((response) {
       _hackResponseHeader(response);
       final ims = json.decode(response.body)['groups'] as List;

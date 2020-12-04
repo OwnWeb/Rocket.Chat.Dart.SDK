@@ -1,8 +1,8 @@
 part of rest;
 
 abstract class _ClientUsersMixin implements _ClientWrapper {
-  Future<void> login(UserCredentials credentials) {
-    Completer<void> completer = Completer();
+  Future<User> login(UserCredentials credentials) {
+    Completer<User> completer = Completer();
     Map<String, String> body = {};
 
     if (credentials.token != null) {
@@ -25,8 +25,10 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
         .then((response) {
       _hackResponseHeader(response);
       final data = json.decode(response.body)['data'];
-      this._auth = _AuthInfo(data['userId'], data['authToken']);
-      completer.complete(null);
+      this._auth = AuthInfo()
+        ..id = data['userId']
+        ..token = data['authToken'];
+      completer.complete(User.fromJson(data['me']));
     }).catchError((error) => completer.completeError(error));
     return completer.future;
   }
@@ -44,7 +46,9 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
   }
 
   setCredentials(UserCredentials credentials) {
-    this._auth = _AuthInfo(credentials.id, credentials.token);
+    this._auth = AuthInfo()
+      ..id = credentials.id
+      ..token = credentials.token;
   }
 
   // savePushToken stores a push token and returns its id
@@ -55,8 +59,8 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
         .post('${_getUrl()}/push.token',
             headers: {
               'Content-Type': 'application/json',
-              'X-User-Id': _auth._id,
-              'X-Auth-Token': _auth._token,
+              'X-User-Id': _auth.id,
+              'X-Auth-Token': _auth.token,
             },
             body: json.encode(<String, String>{
               'id': id,
@@ -76,8 +80,8 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
   Future<void> setAvatar(File file) {
     Completer<void> completer = Completer();
     http.MultipartRequest('POST', Uri.parse('${_getUrl()}/users.setAvatar'))
-      ..headers['X-User-Id'] = _auth._id
-      ..headers['X-Auth-Token'] = _auth._token
+      ..headers['X-User-Id'] = _auth.id
+      ..headers['X-Auth-Token'] = _auth.token
       ..files.add(http.MultipartFile.fromBytes('image', file.readAsBytesSync()))
       ..send().then((response) {
         if (response.statusCode == 200) {

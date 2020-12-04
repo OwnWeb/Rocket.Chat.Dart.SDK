@@ -17,8 +17,8 @@ abstract class _ClientChannelsMixin implements _ClientWrapper {
   Future<List<Channel>> getPublicChannels() {
     Completer<List<Channel>> completer = Completer();
     http.get('${_getUrl()}/channels.list', headers: {
-      'X-User-Id': _auth._id,
-      'X-Auth-Token': _auth._token,
+      'X-User-Id': _auth.id,
+      'X-Auth-Token': _auth.token,
     }).then((response) {
       _hackResponseHeader(response);
       final channelsResponse =
@@ -31,8 +31,8 @@ abstract class _ClientChannelsMixin implements _ClientWrapper {
   Future<List<Channel>> getPublicChannelsJoined() {
     Completer<List<Channel>> completer = Completer();
     http.get('${_getUrl()}/channels.list.joined', headers: {
-      'X-User-Id': _auth._id,
-      'X-Auth-Token': _auth._token,
+      'X-User-Id': _auth.id,
+      'X-Auth-Token': _auth.token,
     }).then((response) {
       _hackResponseHeader(response);
       final channelsResponse =
@@ -51,8 +51,8 @@ abstract class _ClientChannelsMixin implements _ClientWrapper {
     http
         .post('${_getUrl()}/channels.create',
             headers: {
-              'X-User-Id': _auth._id,
-              'X-Auth-Token': _auth._token,
+              'X-User-Id': _auth.id,
+              'X-Auth-Token': _auth.token,
               'Content-Type': 'application/json',
             },
             body: json.encode(<String, dynamic>{
@@ -94,8 +94,8 @@ abstract class _ClientChannelsMixin implements _ClientWrapper {
       query.write('&unreads=$unreads');
     }
     http.get('${_getUrl()}/channels.history?${query.toString()}', headers: {
-      'X-User-Id': _auth._id,
-      'X-Auth-Token': _auth._token,
+      'X-User-Id': _auth.id,
+      'X-Auth-Token': _auth.token,
     }).then((response) {
       _hackResponseHeader(response);
       final raws = json.decode(response.body)['messages'];
@@ -113,8 +113,8 @@ abstract class _ClientChannelsMixin implements _ClientWrapper {
     http
         .post('${_getUrl()}/channels.invite',
             headers: {
-              'X-User-Id': _auth._id,
-              'X-Auth-Token': _auth._token,
+              'X-User-Id': _auth.id,
+              'X-Auth-Token': _auth.token,
               'Content-Type': 'application/json',
             },
             body: json.encode(<String, dynamic>{
@@ -134,8 +134,8 @@ abstract class _ClientChannelsMixin implements _ClientWrapper {
     http
         .post('${_getUrl()}/channels.kick',
             headers: {
-              'X-User-Id': _auth._id,
-              'X-Auth-Token': _auth._token,
+              'X-User-Id': _auth.id,
+              'X-Auth-Token': _auth.token,
               'Content-Type': 'application/json',
             },
             body: json.encode(<String, dynamic>{
@@ -155,8 +155,8 @@ abstract class _ClientChannelsMixin implements _ClientWrapper {
     http
         .post('${_getUrl()}/channels.leave',
             headers: {
-              'X-User-Id': _auth._id,
-              'X-Auth-Token': _auth._token,
+              'X-User-Id': _auth.id,
+              'X-Auth-Token': _auth.token,
               'Content-Type': 'application/json',
             },
             body: json.encode(<String, dynamic>{
@@ -174,8 +174,8 @@ abstract class _ClientChannelsMixin implements _ClientWrapper {
     http
         .post('${_getUrl()}/channels.open',
             headers: {
-              'X-User-Id': _auth._id,
-              'X-Auth-Token': _auth._token,
+              'X-User-Id': _auth.id,
+              'X-Auth-Token': _auth.token,
               'Content-Type': 'application/json',
             },
             body: json.encode(<String, dynamic>{'roomId': roomId}))
@@ -187,14 +187,15 @@ abstract class _ClientChannelsMixin implements _ClientWrapper {
   Future<void> channelsClose(String roomId) {
     Completer<void> completer = Completer();
     final headers = {
-      'X-User-Id': _auth._id,
-      'X-Auth-Token': _auth._token,
+      'X-User-Id': _auth.id,
+      'X-Auth-Token': _auth.token,
       'Content-Type': 'application/json',
     };
     final body = json.encode(<String, dynamic>{'roomId': roomId});
-    http.post('${_getUrl()}/channelsClose', headers: headers, body: body)
-      .then((response) => completer.complete(null))
-      .catchError((error) => completer.completeError(error));
+    http
+        .post('${_getUrl()}/channelsClose', headers: headers, body: body)
+        .then((response) => completer.complete(null))
+        .catchError((error) => completer.completeError(error));
     return completer.future;
   }
 
@@ -221,8 +222,8 @@ abstract class _ClientChannelsMixin implements _ClientWrapper {
       query.write('&count=$count');
     }
     http.get('${_getUrl()}/channels.members?${query.toString()}', headers: {
-      'X-User-Id': _auth._id,
-      'X-Auth-Token': _auth._token,
+      'X-User-Id': _auth.id,
+      'X-Auth-Token': _auth.token,
     }).then((response) {
       _hackResponseHeader(response);
       final rawResponse = json.decode(response.body);

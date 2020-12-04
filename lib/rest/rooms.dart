@@ -4,8 +4,8 @@ abstract class _ClientRoomsMixin implements _ClientWrapper {
   Future<List<Channel>> getRooms() {
     Completer<List<Channel>> completer = Completer();
     http.get('${_getUrl()}/rooms.get', headers: {
-      'X-User-Id': _auth._id,
-      'X-Auth-Token': _auth._token,
+      'X-User-Id': _auth.id,
+      'X-Auth-Token': _auth.token,
     }).then((response) {
       _hackResponseHeader(response);
       final rawRoomsList = json.decode(response.body)['update'] as List;
@@ -21,8 +21,8 @@ abstract class _ClientRoomsMixin implements _ClientWrapper {
   Future<Channel> roomsInfo(String roomId) {
     Completer<Channel> completer = Completer();
     http.get('${_getUrl()}/rooms.info?roomId=${roomId}', headers: {
-      'X-User-Id': _auth._id,
-      'X-Auth-Token': _auth._token
+      'X-User-Id': _auth.id,
+      'X-Auth-Token': _auth.token
     }).then((response) {
       _hackResponseHeader(response);
       if (response.statusCode == 200) {
@@ -41,8 +41,8 @@ abstract class _ClientRoomsMixin implements _ClientWrapper {
     http
         .post('${_getUrl()}/rooms.saveNotification',
             headers: {
-              'X-User-Id': _auth._id,
-              'X-Auth-Token': _auth._token,
+              'X-User-Id': _auth.id,
+              'X-Auth-Token': _auth.token,
               'Content-Type': 'application/json',
             },
             body: json.encode(<String, dynamic>{
