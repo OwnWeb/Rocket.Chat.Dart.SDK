@@ -1,6 +1,6 @@
 part of realtime;
 
-abstract class _ClientLiveChatMixin extends _DdpClientWrapper {
+abstract class _ClientLiveChatMixin implements _DdpClientWrapper {
   Future<dynamic> getInitialDataLiveChat(String token) {
     Completer<dynamic> completer = Completer();
     this
@@ -11,7 +11,10 @@ abstract class _ClientLiveChatMixin extends _DdpClientWrapper {
     return completer.future;
   }
 
-  Future<dynamic> registerGuestLiveChat(String token, String name, {String email, String department, List<Map<String, String>> customFields}) {
+  Future<dynamic> registerGuestLiveChat(String token, String name,
+      {String email,
+      String department,
+      List<Map<String, String>> customFields}) {
     Completer<dynamic> completer = Completer();
     this
         ._getDdpClient()
@@ -29,7 +32,8 @@ abstract class _ClientLiveChatMixin extends _DdpClientWrapper {
     return completer.future;
   }
 
-  Future<Message> sendMessageLiveChat(String roomId, String token, String text, {String id}) {
+  Future<Message> sendMessageLiveChat(String roomId, String token, String text,
+      {String id}) {
     Completer<Message> completer = Completer();
     final message = Message()
       ..roomId = roomId
@@ -52,10 +56,9 @@ abstract class _ClientLiveChatMixin extends _DdpClientWrapper {
           name,
           <String, dynamic>{
             'useCollection': true,
-            'args': [<String, dynamic>{
-              'token': token,
-              'visitorToken': token
-            }],
+            'args': [
+              <String, dynamic>{'token': token, 'visitorToken': token}
+            ],
           },
         ])
         .then((call) => completer.complete(call.id))
