@@ -12,16 +12,19 @@ abstract class _ClientSubscriptionsMixin implements _DdpClientWrapper {
     Completer<String> completer = Completer();
     this
         ._getDdpClient()
-        .sub('stream-room-messages', token != null ? [
-          name,
-          <String, dynamic>{
-            'useCollection': true,
-            'args': [<String, dynamic>{
-              'token': token,
-              'visitorToken': token
-            }],
-          },
-        ] : [name, true])
+        .sub(
+            'stream-room-messages',
+            token != null
+                ? [
+                    name,
+                    <String, dynamic>{
+                      'useCollection': true,
+                      'args': [
+                        <String, dynamic>{'token': token, 'visitorToken': token}
+                      ],
+                    },
+                  ]
+                : [name, true])
         .then((call) => completer.complete(call.id))
         .catchError((error) => completer.completeError(error));
     return completer.future;
@@ -29,10 +32,11 @@ abstract class _ClientSubscriptionsMixin implements _DdpClientWrapper {
 
   Future<void> unSubRoomMessages(String subId) {
     Completer<void> completer = Completer();
-    this._getDdpClient()
-      .unSub(subId)
-      .then((call) => completer.complete(call))
-      .catchError((error) => completer.completeError(error));
+    this
+        ._getDdpClient()
+        .unSub(subId)
+        .then((call) => completer.complete(call))
+        .catchError((error) => completer.completeError(error));
     return completer.future;
   }
 
@@ -80,6 +84,10 @@ abstract class _ClientSubscriptionsMixin implements _DdpClientWrapper {
         .addUpdateListener((String collection, String operation, String id,
             Map<String, dynamic> doc) {
       if (doc != null && doc['eventName'].endsWith('rooms-changed')) {
+        if (doc['args'] == null) {
+          return;
+        }
+
         final type = doc['args'][1]['t'];
 
         if (type == 'd') {
@@ -97,7 +105,9 @@ abstract class _ClientSubscriptionsMixin implements _DdpClientWrapper {
         .collectionByName('stream-notify-user')
         .addUpdateListener((collection, opeartion, id, doc) {
       if ((doc ?? {"eventName": ""})['eventName'].endsWith('rooms-changed')) {
-        print(doc['args']);
+        if (doc['args'] == null) {
+          return;
+        }
         controller.add(Channel.fromJson(doc['args'][1]));
       }
     });
