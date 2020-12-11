@@ -70,7 +70,7 @@ packages:
       name: build_runner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.10.6"
+    version: "1.10.9"
   build_runner_core:
     dependency: transitive
     description:
@@ -158,10 +158,12 @@ packages:
   enhanced_ddp:
     dependency: "direct main"
     description:
-      name: enhanced_ddp
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.2+1"
+      path: "."
+      ref: fixed
+      resolved-ref: "70cacfdfda92e43113037804258c6c4838868b0b"
+      url: "https://github.com/OwnWeb/enhanced_ddp.git"
+    source: git
+    version: "1.2.2+2"
   fixnum:
     dependency: transitive
     description:
@@ -231,7 +233,7 @@ packages:
       name: json_serializable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.5.0"
+    version: "3.5.1"
   logging:
     dependency: transitive
     description:
@@ -448,7 +450,7 @@ packages:
       name: tuple
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.3"
   typed_data:
     dependency: transitive
     description:

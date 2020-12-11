@@ -7,12 +7,15 @@ environment:
   sdk: '>=2.7.0 <3.0.0'
 
 dependencies:
-  enhanced_ddp: ^1.2.2+1
+  enhanced_ddp:
+    git:
+      url: https://github.com/OwnWeb/enhanced_ddp.git
+      ref: fixed
   crypto: ^2.1.5
   http: ^0.12.2
   json_annotation: ^3.1.1
 
 dev_dependencies:
   test: ^1.15.7
-  build_runner: ^1.10.6
-  json_serializable: ^3.5.0
+  build_runner: ^1.10.9
+  json_serializable: ^3.5.1
