@@ -73,13 +73,13 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
       Map<String, dynamic> customFields}) {
     Completer<User> completer = Completer();
     Map<String, dynamic> body = <String, Map<String, dynamic>>{
+      if (customFields != null) 'customFields': customFields,
       'data': {
         'email': email,
         'username': username,
         'name': name,
         'currentPassword': currentPassword,
         'newPassword': newPassword,
-        'customFields': customFields,
       }..removeWhere((key, value) => value == null)
     };
 
@@ -87,6 +87,8 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
         .post('${_getUrl()}/users.updateOwnBasicInfo',
             headers: {
               'Content-Type': 'application/json',
+              'X-User-Id': _auth.id,
+              'X-Auth-Token': _auth.token,
             },
             body: json.encode(body))
         .then((response) {
@@ -98,9 +100,7 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
         return completer.completeError(body['error']);
       }
 
-      final data = json.decode(response.body)['data'];
-
-      completer.complete(User.fromJson(data['user']));
+      completer.complete(User.fromJson(body['user']));
     }).catchError((error) => completer.completeError(error));
     return completer.future;
   }
