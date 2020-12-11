@@ -19,6 +19,9 @@ class User {
   @JsonKey(name: 'active')
   bool active;
 
+  @JsonKey(name: 'customFields')
+  Map<String, dynamic> customFields;
+
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
