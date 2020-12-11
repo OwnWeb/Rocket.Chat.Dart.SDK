@@ -63,6 +63,48 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
     }).catchError((error) => completer.completeError(error));
     return completer.future;
   }
+
+  Future<User> updateOwnBasicInfo(
+      {String email,
+      String username,
+      String name,
+      String currentPassword,
+      String newPassword,
+      Map<String, dynamic> customFields}) {
+    Completer<User> completer = Completer();
+    Map<String, dynamic> body = <String, Map<String, dynamic>>{
+      'data': {
+        'email': email,
+        'username': username,
+        'name': name,
+        'currentPassword': currentPassword,
+        'newPassword': newPassword,
+        'customFields': customFields,
+      }..removeWhere((key, value) => value == null)
+    };
+
+    http
+        .post('${_getUrl()}/users.updateOwnBasicInfo',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: json.encode(body))
+        .then((response) {
+      _hackResponseHeader(response);
+
+      final body = json.decode(response.body);
+
+      if (body['success'] == false) {
+        return completer.completeError(body['error']);
+      }
+
+      final data = json.decode(response.body)['data'];
+
+      completer.complete(User.fromJson(data['user']));
+    }).catchError((error) => completer.completeError(error));
+    return completer.future;
+  }
+
   Future<void> logout() {
     Completer<void> completer = Completer();
 
