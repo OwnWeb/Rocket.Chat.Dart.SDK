@@ -66,14 +66,16 @@ abstract class _ClientUsersMixin implements _DdpClientWrapper {
           ..algorithm = 'sha-256');
     }
     Completer<AuthInfo> completer = Completer();
-    this
-        ._getDdpClient()
-        .call('login', [request])
-        .then((call) => completer.complete(AuthInfo()
-          ..id = '${call.reply['id']}'
-          ..token = '${call.reply['token']}'
-          ..tokenExpires = call.reply['tokenExpires']['\$date']))
-        .catchError((error) => completer.completeError(error));
+    this._getDdpClient().call('login', [request]).then((call) {
+      if (call.reply['error'] != null) {
+        return completer.completeError(call.reply);
+      }
+
+      return completer.complete(AuthInfo()
+        ..id = '${call.reply['id']}'
+        ..token = '${call.reply['token']}'
+        ..tokenExpires = call.reply['tokenExpires']['\$date']);
+    }).catchError((error) => completer.completeError(error));
     return completer.future;
   }
 
