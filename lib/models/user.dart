@@ -16,6 +16,9 @@ class User {
   @JsonKey(name: 'status')
   String status;
 
+  @JsonKey(name: 'active')
+  bool active;
+
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserToJson(this);

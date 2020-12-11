@@ -386,7 +386,8 @@ User _$UserFromJson(Map<String, dynamic> json) {
     ..id = json['_id'] as String
     ..name = json['name'] as String
     ..userName = json['username'] as String
-    ..status = json['status'] as String;
+    ..status = json['status'] as String
+    ..active = json['active'] as bool;
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -394,6 +395,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'name': instance.name,
       'username': instance.userName,
       'status': instance.status,
+      'active': instance.active,
     };
 
 AuthInfo _$AuthInfoFromJson(Map<String, dynamic> json) {

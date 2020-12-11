@@ -33,6 +33,36 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
     return completer.future;
   }
 
+  Future<User> register(String email, String password, String username,
+      {String name, String secretURL}) {
+    Completer<User> completer = Completer();
+    Map<String, String> body = <String, String>{
+      'email': email,
+      'pass': password,
+      'username': username,
+      'name': name ?? '',
+      if (secretURL != null) 'secretURL': secretURL
+    };
+
+    http
+        .post('${_getUrl()}/users.register',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: json.encode(body))
+        .then((response) {
+      _hackResponseHeader(response);
+
+      final body = json.decode(response.body);
+
+      if (body['success'] == false) {
+        return completer.completeError(body['error']);
+      }
+
+      completer.complete(User.fromJson(body['user']));
+    }).catchError((error) => completer.completeError(error));
+    return completer.future;
+  }
   Future<void> logout() {
     Completer<void> completer = Completer();
 
