@@ -165,4 +165,22 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
       }).catchError((error) => completer.completeError(error));
     return completer.future;
   }
+
+  ///
+  /// Returns an username suggestion based on user name's if provided
+  /// See https://docs.rocket.chat/api/rest-api/methods/users/getusernamesuggestion
+  ///
+  Future<String> getUsernameSuggestion() {
+    Completer<String> completer = Completer();
+
+    http.get('${_getUrl()}/users.getUsernameSuggestion', headers: {
+      'X-User-Id': _auth.id,
+      'X-Auth-Token': _auth.token,
+    }).then((response) {
+      _hackResponseHeader(response);
+      final rawResponse = json.decode(response.body);
+      completer.complete(rawResponse['result']);
+    }).catchError((error) => completer.completeError(error));
+    return completer.future;
+  }
 }
