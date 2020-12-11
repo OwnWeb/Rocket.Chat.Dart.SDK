@@ -1,6 +1,9 @@
 part of rest;
 
 abstract class _ClientUsersMixin implements _ClientWrapper {
+  /// Login the user with given credentials
+  /// See https://docs.rocket.chat/api/rest-api/methods/authentication/login
+  ///
   Future<User> login(UserCredentials credentials) {
     Completer<User> completer = Completer();
     Map<String, String> body = {};
@@ -33,6 +36,9 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
     return completer.future;
   }
 
+  /// Register an user with given credentials
+  /// See https://docs.rocket.chat/api/rest-api/methods/users/register
+  ///
   Future<User> register(String email, String password, String username,
       {String name, String secretURL}) {
     Completer<User> completer = Completer();
@@ -64,6 +70,9 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
     return completer.future;
   }
 
+  /// Updates user informations
+  /// See https://docs.rocket.chat/api/rest-api/methods/users/updateownbasicinfo
+  ///
   Future<User> updateOwnBasicInfo(
       {String email,
       String username,
@@ -105,6 +114,9 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
     return completer.future;
   }
 
+  /// Logout user, revoking its current tokens
+  /// See https://docs.rocket.chat/api/rest-api/methods/authentication/logout
+  ///
   Future<void> logout() {
     Completer<void> completer = Completer();
 
@@ -117,13 +129,15 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
     return completer.future;
   }
 
+  /// Set credentials after login
   setCredentials(UserCredentials credentials) {
     this._auth = AuthInfo()
       ..id = credentials.id
       ..token = credentials.token;
   }
 
-  // savePushToken stores a push token and returns its id
+  /// savePushToken stores a push token and returns its id
+  /// See https://docs.rocket.chat/api/rest-api/methods/push/push-token
   Future<String> savePushToken(
       String id, String token, String type, String appName) {
     Completer<String> completer = Completer();
@@ -148,7 +162,9 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
     return completer.future;
   }
 
-  // savePushToken stores a push token and returns its id
+  /// Set user avatar
+  /// See https://docs.rocket.chat/api/rest-api/methods/users/setavatar
+  ///
   Future<void> setAvatar(File file) {
     Completer<void> completer = Completer();
     http.MultipartRequest('POST', Uri.parse('${_getUrl()}/users.setAvatar'))
