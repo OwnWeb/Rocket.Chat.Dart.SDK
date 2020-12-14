@@ -70,28 +70,48 @@ ChannelSubscription _$ChannelSubscriptionFromJson(Map<String, dynamic> json) {
     ..displayName = json['fname'] as String
     ..open = json['open'] as bool
     ..roomId = json['rid'] as String
+    ..prid = json['prid'] as String
     ..type = json['t'] as String
     ..user = json['u'] == null
         ? null
         : User.fromJson(json['u'] as Map<String, dynamic>)
     ..roles = (json['roles'] as List)?.map((e) => e as String)?.toList()
-    ..unread = json['unread'] as int;
+    ..unread = json['unread'] as int
+    ..userMentions = json['userMentions'] as int
+    ..groupMentions = json['groupMentions'] as int
+    ..ts = _fromJsonToDateTime(json['ts'])
+    ..ls = _fromJsonToDateTime(json['ls'])
+    ..updatedAt = _fromJsonToDateTime(json['updatedAt']);
 }
 
-Map<String, dynamic> _$ChannelSubscriptionToJson(
-        ChannelSubscription instance) =>
-    <String, dynamic>{
-      '_id': instance.id,
-      'alert': instance.alert,
-      'name': instance.name,
-      'fname': instance.displayName,
-      'open': instance.open,
-      'rid': instance.roomId,
-      't': instance.type,
-      'u': instance.user,
-      'roles': instance.roles,
-      'unread': instance.unread,
-    };
+Map<String, dynamic> _$ChannelSubscriptionToJson(ChannelSubscription instance) {
+  final val = <String, dynamic>{
+    '_id': instance.id,
+    'alert': instance.alert,
+    'name': instance.name,
+    'fname': instance.displayName,
+    'open': instance.open,
+    'rid': instance.roomId,
+    'prid': instance.prid,
+    't': instance.type,
+    'u': instance.user,
+    'roles': instance.roles,
+    'unread': instance.unread,
+    'userMentions': instance.userMentions,
+    'groupMentions': instance.groupMentions,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ts', instance.ts?.toIso8601String());
+  writeNotNull('ls', instance.ls?.toIso8601String());
+  writeNotNull('updatedAt', instance.updatedAt?.toIso8601String());
+  return val;
+}
 
 Pagination _$PaginationFromJson(Map<String, dynamic> json) {
   return Pagination()

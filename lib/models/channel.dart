@@ -87,6 +87,9 @@ class ChannelSubscription {
   @JsonKey(name: 'rid')
   String roomId;
 
+  @JsonKey(name: 'prid')
+  String prid;
+
   @JsonKey(name: 't')
   String type;
 
@@ -98,6 +101,22 @@ class ChannelSubscription {
 
   @JsonKey(name: 'unread')
   int unread;
+
+  @JsonKey(name: 'userMentions')
+  int userMentions;
+
+  @JsonKey(name: 'groupMentions')
+  int groupMentions;
+
+  @JsonKey(name: 'ts', includeIfNull: false, fromJson: _fromJsonToDateTime)
+  DateTime ts;
+
+  @JsonKey(name: 'ls', includeIfNull: false, fromJson: _fromJsonToDateTime)
+  DateTime ls;
+
+  @JsonKey(
+      name: 'updatedAt', includeIfNull: false, fromJson: _fromJsonToDateTime)
+  DateTime updatedAt;
 
   factory ChannelSubscription.fromJson(Map<String, dynamic> json) =>
       _$ChannelSubscriptionFromJson(json);
