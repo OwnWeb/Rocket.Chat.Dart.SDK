@@ -69,7 +69,13 @@ abstract class _ClientIMMixin implements _ClientWrapper {
     }).then((response) {
       _hackResponseHeader(response);
       final ims = json.decode(response.body)['ims'] as List;
-      final list = ims.map<Channel>((im) => Channel.fromJson(im)).toList();
+      final list = ims.map<Channel>((im) {
+        // workaround for IMs having boolean sysMes and channels having
+        // List<String> ones since rocket 3.0.0 update
+        im.removeWhere((key, value) => key == 'sysMes');
+
+        return Channel.fromJson(im);
+      }).toList();
       completer.complete(list);
     }).catchError((error) => completer.completeError(error));
     return completer.future;
