@@ -87,6 +87,16 @@ abstract class _ClientChannelsMixin implements _DdpClientWrapper {
     return completer.future;
   }
 
+  Future<void> leaveChannel(String roomId) {
+    Completer<void> completer = Completer();
+    this
+        ._getDdpClient()
+        .call('leaveRoom', [roomId])
+        .then((value) => completer.complete(null))
+        .catchError((error) => completer.completeError(error));
+    return completer.future;
+  }
+
   Future<void> archiveChannel(String roomId) {
     Completer<void> completer = Completer();
     this
