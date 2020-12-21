@@ -21,7 +21,7 @@ class NotificationPreferences {
 
   @JsonKey(
       name: 'disableNotifications', defaultValue: false, toJson: _toJsonBool)
-  bool disableNotifications = false;
+  bool disableNotifications;
 
   @JsonKey(name: 'emailNotifications', defaultValue: NotificationStatus.DEFAULT)
   NotificationStatus emailNotifications;
@@ -43,7 +43,7 @@ class NotificationPreferences {
   NotificationStatus unreadAlert;
 
   @JsonKey(name: 'hideUnreadStatus', defaultValue: false, toJson: _toJsonBool)
-  bool hideUnreadStatus = false;
+  bool hideUnreadStatus;
 
   factory NotificationPreferences.fromJson(Map<String, dynamic> json) =>
       _$NotificationPreferencesFromJson(json);

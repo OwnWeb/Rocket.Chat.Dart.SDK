@@ -126,7 +126,7 @@ class ChannelSubscription {
 
   @JsonKey(
       name: 'disableNotifications', defaultValue: false, toJson: _toJsonBool)
-  bool disableNotifications = false;
+  bool disableNotifications;
 
   @JsonKey(name: 'emailNotifications', defaultValue: NotificationStatus.DEFAULT)
   NotificationStatus emailNotifications;

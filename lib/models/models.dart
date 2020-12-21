@@ -21,7 +21,7 @@ DateTime _fromJsonToDateTime(dynamic field) {
   return null;
 }
 
-String _toJsonBool(bool value) => value ? '1' : '0';
+String _toJsonBool(bool value) => value == true ? '1' : '0';
 
 Map<String, int> DateTimeToMap(DateTime dt) {
   var r = Map<String, int>();
