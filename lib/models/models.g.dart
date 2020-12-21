@@ -14,7 +14,7 @@ Channel _$ChannelFromJson(Map<String, dynamic> json) {
     ..type = json['t'] as String
     ..msgs = json['msgs'] as int
     ..readOnly = json['ro'] as bool
-    ..sysMes = json['sysMes'] as bool
+    ..sysMes = (json['sysMes'] as List)?.map((e) => e as String)?.toList()
     ..isDefault = json['default'] as bool
     ..broadcast = json['broadcast'] as bool
     ..timestamp = _fromJsonToDateTime(json['ts'])
