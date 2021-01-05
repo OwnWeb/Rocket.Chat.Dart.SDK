@@ -27,8 +27,10 @@ abstract class _ClientChannelsMixin implements _DdpClientWrapper {
       <String, dynamic>{"\$date": 0}
     ]).then((call) {
       List<Channel> channels = [];
-      (((call.reply is Map<String, dynamic>) ? call.reply :  {'update': []})['update'] as List<dynamic>).forEach((chan) => channels.add(
-          Channel()
+      (((call.reply is Map<String, dynamic>)
+              ? call.reply
+              : {'update': []})['update'] as List<dynamic>)
+          .forEach((chan) => channels.add(Channel()
             ..id = '${chan['_id']}'
             ..name = '${chan['name']}'
             ..type = '${chan['t']}'

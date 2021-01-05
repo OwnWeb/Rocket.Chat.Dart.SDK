@@ -13,9 +13,11 @@ dependencies:
       ref: fixed
   crypto: ^2.1.5
   http: ^0.12.2
+  http_parser: ^3.1.4
+  mime: ^0.9.7
   json_annotation: ^3.1.1
 
 dev_dependencies:
   test: ^1.15.7
-  build_runner: ^1.10.9
+  build_runner: ^1.10.11
   json_serializable: ^3.5.1

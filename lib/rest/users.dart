@@ -138,8 +138,8 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
 
   /// savePushToken stores a push token and returns its id
   /// See https://docs.rocket.chat/api/rest-api/methods/push/push-token
-  Future<String> savePushToken(
-      String id, String token, String type, String appName) {
+  Future<String> savePushToken(String token, String type, String appName,
+      {String id}) {
     Completer<String> completer = Completer();
     http
         .post('${_getUrl()}/push.token',
@@ -149,7 +149,7 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
               'X-Auth-Token': _auth.token,
             },
             body: json.encode(<String, String>{
-              'id': id,
+              if (id != null) 'id': id,
               'type': type,
               'value': token,
               'appName': appName,
@@ -167,10 +167,15 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
   ///
   Future<void> setAvatar(File file) {
     Completer<void> completer = Completer();
+
+    final contentType = MediaType.parse(lookupMimeType(file.path));
+    final image = http.MultipartFile.fromBytes('image', file.readAsBytesSync(),
+        contentType: contentType, filename: 'image');
+
     http.MultipartRequest('POST', Uri.parse('${_getUrl()}/users.setAvatar'))
       ..headers['X-User-Id'] = _auth.id
       ..headers['X-Auth-Token'] = _auth.token
-      ..files.add(http.MultipartFile.fromBytes('image', file.readAsBytesSync()))
+      ..files.add(image)
       ..send().then((response) {
         if (response.statusCode == 200) {
           completer.complete();

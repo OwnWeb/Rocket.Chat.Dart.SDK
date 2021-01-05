@@ -5,7 +5,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mime/mime.dart';
 import 'package:rocket_chat_dart/models/models.dart';
 
 part 'channels.dart';
