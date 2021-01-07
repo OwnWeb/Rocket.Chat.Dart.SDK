@@ -55,8 +55,8 @@ Map<String, dynamic> _$ChannelToJson(Channel instance) {
   writeNotNull('_updatedAt', instance.updatedAt?.toIso8601String());
   val['topic'] = instance.topic;
   val['description'] = instance.description;
-  writeNotNull('u', instance.user);
-  writeNotNull('lastMessage', instance.lastMessage);
+  writeNotNull('u', instance.user?.toJson());
+  writeNotNull('lastMessage', instance.lastMessage?.toJson());
   val['usersCount'] = instance.usersCount;
   val['usernames'] = instance.usernames;
   return val;
@@ -111,7 +111,7 @@ Map<String, dynamic> _$ChannelSubscriptionToJson(ChannelSubscription instance) {
     'rid': instance.roomId,
     'prid': instance.prid,
     't': instance.type,
-    'u': instance.user,
+    'u': instance.user?.toJson(),
     'roles': instance.roles,
     'unread': instance.unread,
     'userMentions': instance.userMentions,
@@ -258,17 +258,20 @@ Map<String, dynamic> _$MessageToJson(Message instance) {
     }
   }
 
-  writeNotNull('editedBy', instance.editedBy);
+  writeNotNull('editedBy', instance.editedBy?.toJson());
   writeNotNull('groupable', instance.groupable);
   writeNotNull('editedAt', instance.editedAt?.toIso8601String());
   writeNotNull('ts', instance.timestamp?.toIso8601String());
   val['t'] = instance.type;
   writeNotNull('_updatedAt', instance.updatedAt?.toIso8601String());
-  writeNotNull('mentions', instance.mentions);
-  writeNotNull('u', instance.user);
-  writeNotNull('attachments', instance.attachments);
-  writeNotNull('postMessage', instance.postMessage);
-  writeNotNull('reactions', instance.reactions);
+  writeNotNull(
+      'mentions', instance.mentions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('u', instance.user?.toJson());
+  writeNotNull(
+      'attachments', instance.attachments?.map((e) => e?.toJson())?.toList());
+  writeNotNull('postMessage', instance.postMessage?.toJson());
+  writeNotNull(
+      'reactions', instance.reactions?.map((k, e) => MapEntry(k, e?.toJson())));
   writeNotNull('drid', instance.drid);
   return val;
 }

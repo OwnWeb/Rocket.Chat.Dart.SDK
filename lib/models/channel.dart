@@ -1,6 +1,6 @@
 part of models;
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Channel {
   Channel();
 
@@ -67,7 +67,7 @@ class Channel {
   Map<String, dynamic> toJson() => _$ChannelToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class ChannelSubscription {
   ChannelSubscription();
 

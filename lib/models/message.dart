@@ -16,7 +16,7 @@ class RoomMessageHistory {
   Map<String, dynamic> toJson() => _$RoomMessageHistoryToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Message {
   Message();
 
@@ -85,6 +85,8 @@ class ReactionItem {
 
   factory ReactionItem.fromJson(Map<String, dynamic> json) =>
       _$ReactionItemFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ReactionItemToJson(this);
 }
 
 @JsonSerializable()
