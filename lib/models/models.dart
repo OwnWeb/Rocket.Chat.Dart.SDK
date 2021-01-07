@@ -28,3 +28,9 @@ Map<String, int> DateTimeToMap(DateTime dt) {
   r["\$date"] = dt.millisecondsSinceEpoch;
   return r;
 }
+
+List<String> _fromJsonSysMes(dynamic field) {
+  if (field is List) return field.cast<String>();
+
+  return [field.toString()] as List<String>;
+}

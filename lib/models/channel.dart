@@ -24,7 +24,7 @@ class Channel {
 
   // starting from 3.0.3, sysmes is definable per room
   // see https://github.com/RocketChat/Rocket.Chat/pull/16369
-  @JsonKey(name: 'sysMes', includeIfNull: false)
+  @JsonKey(name: 'sysMes', includeIfNull: false, fromJson: _fromJsonSysMes)
   List<String> sysMes;
 
   @JsonKey(name: 'default')
