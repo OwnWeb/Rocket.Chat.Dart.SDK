@@ -204,4 +204,29 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
     }).catchError((error) => completer.completeError(error));
     return completer.future;
   }
+
+  ///
+  /// Retrieves information about a user
+  /// See https://docs.rocket.chat/api/rest-api/methods/users/info
+  ///
+  Future<User> getUserInfo({String username, String userId}) {
+    assert(userId is String || username is String);
+
+    Completer<User> completer = Completer();
+
+    http.get(
+        '${_getUrl()}/users.info?${userId != null ? 'userId=$userId' : 'username=$username'}',
+        headers: {
+          'X-User-Id': _auth.id,
+          'X-Auth-Token': _auth.token,
+        }).then((response) {
+      _hackResponseHeader(response);
+
+      final body = json.decode(response.body);
+
+      completer.complete(User.fromJson(body['user']));
+    }).catchError((error) => completer.completeError(error));
+
+    return completer.future;
+  }
 }
