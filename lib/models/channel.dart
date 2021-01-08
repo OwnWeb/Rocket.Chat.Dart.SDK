@@ -49,6 +49,9 @@ class Channel {
   @JsonKey(name: 'description')
   String description;
 
+  @JsonKey(name: 'avatarETag')
+  String avatarETag;
+
   @JsonKey(name: 'u', includeIfNull: false)
   User user;
 

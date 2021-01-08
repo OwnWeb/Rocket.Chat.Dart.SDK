@@ -21,6 +21,7 @@ Channel _$ChannelFromJson(Map<String, dynamic> json) {
     ..updatedAt = _fromJsonToDateTime(json['_updatedAt'])
     ..topic = json['topic'] as String
     ..description = json['description'] as String
+    ..avatarETag = json['avatarETag'] as String
     ..user = json['u'] == null
         ? null
         : User.fromJson(json['u'] as Map<String, dynamic>)
@@ -55,6 +56,7 @@ Map<String, dynamic> _$ChannelToJson(Channel instance) {
   writeNotNull('_updatedAt', instance.updatedAt?.toIso8601String());
   val['topic'] = instance.topic;
   val['description'] = instance.description;
+  val['avatarETag'] = instance.avatarETag;
   writeNotNull('u', instance.user?.toJson());
   writeNotNull('lastMessage', instance.lastMessage?.toJson());
   val['usersCount'] = instance.usersCount;

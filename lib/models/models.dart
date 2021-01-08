@@ -32,5 +32,5 @@ Map<String, int> DateTimeToMap(DateTime dt) {
 List<String> _fromJsonSysMes(dynamic field) {
   if (field is List) return field.cast<String>();
 
-  return [field.toString()] as List<String>;
+  return [field.toString()];
 }
