@@ -49,7 +49,7 @@ class Channel {
   @JsonKey(name: 'description')
   String description;
 
-  @JsonKey(name: 'avatarETag')
+  @JsonKey(name: 'avatarETag', fromJson: _parseToStringIfInt)
   String avatarETag;
 
   @JsonKey(name: 'u', includeIfNull: false)

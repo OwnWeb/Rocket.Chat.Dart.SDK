@@ -21,7 +21,7 @@ Channel _$ChannelFromJson(Map<String, dynamic> json) {
     ..updatedAt = _fromJsonToDateTime(json['_updatedAt'])
     ..topic = json['topic'] as String
     ..description = json['description'] as String
-    ..avatarETag = json['avatarETag'] as String
+    ..avatarETag = _parseToStringIfInt(json['avatarETag'])
     ..user = json['u'] == null
         ? null
         : User.fromJson(json['u'] as Map<String, dynamic>)

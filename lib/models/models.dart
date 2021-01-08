@@ -34,3 +34,9 @@ List<String> _fromJsonSysMes(dynamic field) {
 
   return [field.toString()];
 }
+
+String _parseToStringIfInt(dynamic field) {
+  if (field is int) return field.toString();
+
+  return field;
+}
