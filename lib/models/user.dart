@@ -19,6 +19,9 @@ class User {
   @JsonKey(name: 'active')
   bool active;
 
+  @JsonKey(name: 'emails')
+  List<UserEmail> emails;
+
   @JsonKey(name: 'customFields')
   Map<String, dynamic> customFields;
 
@@ -39,4 +42,20 @@ class AuthInfo {
 
   @JsonKey(name: 'tokenExpires')
   int tokenExpires;
+}
+
+@JsonSerializable()
+class UserEmail {
+  UserEmail();
+
+  @JsonKey(name: 'address')
+  String address;
+
+  @JsonKey(name: 'verified')
+  bool verified;
+
+  factory UserEmail.fromJson(Map<String, dynamic> json) =>
+      _$UserEmailFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserEmailToJson(this);
 }

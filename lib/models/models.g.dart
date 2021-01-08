@@ -441,6 +441,10 @@ User _$UserFromJson(Map<String, dynamic> json) {
     ..userName = json['username'] as String
     ..status = json['status'] as String
     ..active = json['active'] as bool
+    ..emails = (json['emails'] as List)
+        ?.map((e) =>
+            e == null ? null : UserEmail.fromJson(e as Map<String, dynamic>))
+        ?.toList()
     ..customFields = json['customFields'] as Map<String, dynamic>;
 }
 
@@ -450,6 +454,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'username': instance.userName,
       'status': instance.status,
       'active': instance.active,
+      'emails': instance.emails,
       'customFields': instance.customFields,
     };
 
@@ -464,4 +469,15 @@ Map<String, dynamic> _$AuthInfoToJson(AuthInfo instance) => <String, dynamic>{
       '_id': instance.id,
       'token': instance.token,
       'tokenExpires': instance.tokenExpires,
+    };
+
+UserEmail _$UserEmailFromJson(Map<String, dynamic> json) {
+  return UserEmail()
+    ..address = json['address'] as String
+    ..verified = json['verified'] as bool;
+}
+
+Map<String, dynamic> _$UserEmailToJson(UserEmail instance) => <String, dynamic>{
+      'address': instance.address,
+      'verified': instance.verified,
     };
