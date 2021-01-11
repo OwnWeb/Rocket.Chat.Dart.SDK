@@ -440,12 +440,21 @@ User _$UserFromJson(Map<String, dynamic> json) {
     ..name = json['name'] as String
     ..userName = json['username'] as String
     ..status = json['status'] as String
+    ..statusConnection = json['statusConnection'] as String
     ..active = json['active'] as bool
     ..emails = (json['emails'] as List)
         ?.map((e) =>
             e == null ? null : UserEmail.fromJson(e as Map<String, dynamic>))
         ?.toList()
-    ..customFields = json['customFields'] as Map<String, dynamic>;
+    ..roles = (json['roles'] as List)?.map((e) => e as String)?.toList()
+    ..customFields = json['customFields'] as Map<String, dynamic>
+    ..avatarETag = json['avatarETag'] as String
+    ..avatarUrl = json['avatarUrl'] as String
+    ..avatarOrigin = json['avatarOrigin'] as String
+    ..settings = json['settings'] == null
+        ? null
+        : UserSettings.fromJson(json['settings'] as Map<String, dynamic>)
+    ..utcOffset = json['utcOffset'] as int;
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -453,9 +462,16 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'name': instance.name,
       'username': instance.userName,
       'status': instance.status,
+      'statusConnection': instance.statusConnection,
       'active': instance.active,
-      'emails': instance.emails,
+      'emails': instance.emails?.map((e) => e?.toJson())?.toList(),
+      'roles': instance.roles,
       'customFields': instance.customFields,
+      'avatarETag': instance.avatarETag,
+      'avatarUrl': instance.avatarUrl,
+      'avatarOrigin': instance.avatarOrigin,
+      'settings': instance.settings?.toJson(),
+      'utcOffset': instance.utcOffset,
     };
 
 AuthInfo _$AuthInfoFromJson(Map<String, dynamic> json) {
@@ -480,4 +496,76 @@ UserEmail _$UserEmailFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$UserEmailToJson(UserEmail instance) => <String, dynamic>{
       'address': instance.address,
       'verified': instance.verified,
+    };
+
+UserPreferences _$UserPreferencesFromJson(Map<String, dynamic> json) {
+  return UserPreferences()
+    ..newRoomNotification = json['newRoomNotification'] as String
+    ..newMessageNotification = json['newMessageNotification'] as String
+    ..muteFocusedConversations = json['muteFocusedConversations'] as bool
+    ..useEmojis = json['useEmojis'] as bool
+    ..convertAsciiEmoji = json['convertAsciiEmoji'] as bool
+    ..saveMobileBandwidth = json['saveMobileBandwidth'] as bool
+    ..collapseMediaByDefault = json['collapseMediaByDefault'] as bool
+    ..autoImageLoad = json['autoImageLoad'] as bool
+    ..emailNotificationMode = json['emailNotificationMode'] as String
+    ..roomsListExhibitionMode = json['roomsListExhibitionMode'] as String
+    ..unreadAlert = json['unreadAlert'] as bool
+    ..notificationsSoundVolume = json['notificationsSoundVolume'] as int
+    ..desktopNotifications = json['desktopNotifications'] as String
+    ..mobileNotifications = json['mobileNotifications'] as String
+    ..enableAutoAway = json['enableAutoAway'] as bool
+    ..highlights = json['highlights'] as List
+    ..desktopNotificationDuration = json['desktopNotificationDuration'] as int
+    ..desktopNotificationRequireInteraction =
+        json['desktopNotificationRequireInteraction'] as bool
+    ..viewMode = json['viewMode'] as int
+    ..hideUsernames = json['hideUsernames'] as bool
+    ..hideRoles = json['hideRoles'] as bool
+    ..hideAvatars = json['hideAvatars'] as bool
+    ..hideFlexTab = json['hideFlexTab'] as bool
+    ..sendOnEnter = json['sendOnEnter'] as String
+    ..roomCounterSidebar = json['roomCounterSidebar'] as bool;
+}
+
+Map<String, dynamic> _$UserPreferencesToJson(UserPreferences instance) =>
+    <String, dynamic>{
+      'newRoomNotification': instance.newRoomNotification,
+      'newMessageNotification': instance.newMessageNotification,
+      'muteFocusedConversations': instance.muteFocusedConversations,
+      'useEmojis': instance.useEmojis,
+      'convertAsciiEmoji': instance.convertAsciiEmoji,
+      'saveMobileBandwidth': instance.saveMobileBandwidth,
+      'collapseMediaByDefault': instance.collapseMediaByDefault,
+      'autoImageLoad': instance.autoImageLoad,
+      'emailNotificationMode': instance.emailNotificationMode,
+      'roomsListExhibitionMode': instance.roomsListExhibitionMode,
+      'unreadAlert': instance.unreadAlert,
+      'notificationsSoundVolume': instance.notificationsSoundVolume,
+      'desktopNotifications': instance.desktopNotifications,
+      'mobileNotifications': instance.mobileNotifications,
+      'enableAutoAway': instance.enableAutoAway,
+      'highlights': instance.highlights,
+      'desktopNotificationDuration': instance.desktopNotificationDuration,
+      'desktopNotificationRequireInteraction':
+          instance.desktopNotificationRequireInteraction,
+      'viewMode': instance.viewMode,
+      'hideUsernames': instance.hideUsernames,
+      'hideRoles': instance.hideRoles,
+      'hideAvatars': instance.hideAvatars,
+      'hideFlexTab': instance.hideFlexTab,
+      'sendOnEnter': instance.sendOnEnter,
+      'roomCounterSidebar': instance.roomCounterSidebar,
+    };
+
+UserSettings _$UserSettingsFromJson(Map<String, dynamic> json) {
+  return UserSettings()
+    ..preferences = json['preferences'] == null
+        ? null
+        : UserPreferences.fromJson(json['preferences'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$UserSettingsToJson(UserSettings instance) =>
+    <String, dynamic>{
+      'preferences': instance.preferences?.toJson(),
     };

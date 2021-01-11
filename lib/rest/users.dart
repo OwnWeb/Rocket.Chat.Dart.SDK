@@ -114,6 +114,69 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
     return completer.future;
   }
 
+  /// Set user preferences
+  /// See https://docs.rocket.chat/api/rest-api/methods/users/set-preferences
+  ///
+  Future<UserPreferences> setUserPreferences(
+      {String userId, UserPreferences userPreferences}) {
+    Completer<UserPreferences> completer = Completer();
+
+    Map<String, dynamic> body = {
+      if (userId != null) 'userId': userId,
+      'data': userPreferences.toJson()
+        ..removeWhere((key, value) => value == null)
+    };
+
+    http
+        .post('${_getUrl()}/users.setPreferences',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-User-Id': _auth.id,
+              'X-Auth-Token': _auth.token,
+            },
+            body: json.encode(body))
+        .then((response) {
+      _hackResponseHeader(response);
+
+      final body = json.decode(response.body);
+
+      if (body['success'] == false) {
+        return completer.completeError(body['error']);
+      }
+
+      completer.complete(
+          UserPreferences.fromJson(body['user']['settings']['preferences']));
+    }).catchError((error) => completer.completeError(error));
+    return completer.future;
+  }
+
+  /// Get user preferences
+  /// See https://docs.rocket.chat/api/rest-api/methods/users/get-preferences
+  ///
+  Future<UserPreferences> getUserPreferences() {
+    Completer<UserPreferences> completer = Completer();
+
+    http.get(
+      '${_getUrl()}/users.getPreferences',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-User-Id': _auth.id,
+        'X-Auth-Token': _auth.token,
+      },
+    ).then((response) {
+      _hackResponseHeader(response);
+
+      final body = json.decode(response.body);
+
+      if (body['success'] == false) {
+        return completer.completeError(body['error']);
+      }
+
+      completer.complete(UserPreferences.fromJson(body['preferences']));
+    }).catchError((error) => completer.completeError(error));
+    return completer.future;
+  }
+
   /// Logout user, revoking its current tokens
   /// See https://docs.rocket.chat/api/rest-api/methods/authentication/logout
   ///
