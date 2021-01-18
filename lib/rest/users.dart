@@ -201,9 +201,9 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
 
   /// savePushToken stores a push token and returns its id
   /// See https://docs.rocket.chat/api/rest-api/methods/push/push-token
-  Future<String> savePushToken(String token, String type, String appName,
+  Future<Map<String, dynamic>> savePushToken(String token, String type, String appName,
       {String id}) {
-    Completer<String> completer = Completer();
+    Completer<Map<String, dynamic>> completer = Completer();
     http
         .post('${_getUrl()}/push.token',
             headers: {
@@ -219,8 +219,33 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
             }))
         .then((response) {
       _hackResponseHeader(response);
-      final data = json.decode(response.body)['result']['_id'];
+      final data = json.decode(response.body)['result'];
       completer.complete(data);
+    }).catchError((error) => completer.completeError(error));
+    return completer.future;
+  }
+
+  /// removePushToken stores a push token and returns its id
+  /// See https://docs.rocket.chat/api/rest-api/methods/push/push-token
+  Future<String> deletePushToken(String token) {
+    Completer<String> completer = Completer();
+    final request = http.Request(
+      'DELETE',
+      Uri.parse('${_getUrl()}/push.token'),
+    );
+
+    request.headers.addAll({
+      'Content-Type': 'application/json',
+      'X-User-Id': _auth.id,
+      'X-Auth-Token': _auth.token,
+    });
+    request.body = json.encode(<String, String>{
+      'token': token,
+    });
+
+    request.send().then((response) async {
+      completer.complete(
+          json.decode(await response.stream.bytesToString())['result']);
     }).catchError((error) => completer.completeError(error));
     return completer.future;
   }
@@ -287,7 +312,8 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
 
       final body = json.decode(response.body);
 
-      completer.complete(User.fromJson(body['user']));
+      completer
+          .complete(body['user'] != null ? User.fromJson(body['user']) : null);
     }).catchError((error) => completer.completeError(error));
 
     return completer.future;
