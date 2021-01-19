@@ -201,7 +201,8 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
 
   /// savePushToken stores a push token and returns its id
   /// See https://docs.rocket.chat/api/rest-api/methods/push/push-token
-  Future<Map<String, dynamic>> savePushToken(String token, String type, String appName,
+  Future<Map<String, dynamic>> savePushToken(
+      String token, String type, String appName,
       {String id}) {
     Completer<Map<String, dynamic>> completer = Completer();
     http
@@ -316,6 +317,33 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
           .complete(body['user'] != null ? User.fromJson(body['user']) : null);
     }).catchError((error) => completer.completeError(error));
 
+    return completer.future;
+  }
+
+  ///
+  /// Send email to reset your password.
+  /// See https://docs.rocket.chat/api/rest-api/methods/users/forgotpassword
+  ///
+  Future<bool> forgotPassword(String email) {
+    Completer<bool> completer = Completer();
+
+    http
+        .post('${_getUrl()}/users.forgotPassword',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: json.encode(<String, String>{
+              'email': email,
+            }))
+        .then((response) {
+      _hackResponseHeader(response);
+      final rawResponse = json.decode(response.body);
+      if (rawResponse['status'] == 'success') {
+        completer.complete();
+      } else {
+        completer.completeError(rawResponse);
+      }
+    }).catchError((error) => completer.completeError(error));
     return completer.future;
   }
 }
