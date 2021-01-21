@@ -338,7 +338,7 @@ abstract class _ClientUsersMixin implements _ClientWrapper {
         .then((response) {
       _hackResponseHeader(response);
       final rawResponse = json.decode(response.body);
-      if (rawResponse['status'] == 'success') {
+      if (rawResponse['success'] == true) {
         completer.complete();
       } else {
         completer.completeError(rawResponse);
