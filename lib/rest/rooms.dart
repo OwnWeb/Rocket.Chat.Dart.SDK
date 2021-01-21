@@ -38,6 +38,14 @@ abstract class _ClientRoomsMixin implements _ClientWrapper {
   Future<void> saveNotification(
       String roomId, NotificationPreferences preferences) async {
     Completer<void> completer = Completer();
+    final body = json.encode(<String, dynamic>{
+      'roomId': roomId,
+      'notifications': preferences.toJson()
+        ..removeWhere((key, value) => value == null)
+    });
+
+    print(body);
+
     http
         .post('${_getUrl()}/rooms.saveNotification',
             headers: {
@@ -45,11 +53,7 @@ abstract class _ClientRoomsMixin implements _ClientWrapper {
               'X-Auth-Token': _auth.token,
               'Content-Type': 'application/json',
             },
-            body: json.encode(<String, dynamic>{
-              'roomId': roomId,
-              'notifications': preferences.toJson()
-                ..removeWhere((key, value) => value == null)
-            }))
+            body: body)
         .then((response) {
       _hackResponseHeader(response);
       if (response.statusCode == 200) {

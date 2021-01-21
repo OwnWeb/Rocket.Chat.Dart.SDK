@@ -85,22 +85,16 @@ ChannelSubscription _$ChannelSubscriptionFromJson(Map<String, dynamic> json) {
     ..ls = _fromJsonToDateTime(json['ls'])
     ..updatedAt = _fromJsonToDateTime(json['updatedAt'])
     ..desktopNotifications = _$enumDecodeNullable(
-            _$NotificationStatusEnumMap, json['desktopNotifications']) ??
-        NotificationStatus.DEFAULT
-    ..disableNotifications = json['disableNotifications'] as bool ?? false
+        _$NotificationStatusEnumMap, json['desktopNotifications'])
+    ..disableNotifications = json['disableNotifications'] as bool
     ..emailNotifications = _$enumDecodeNullable(
-            _$NotificationStatusEnumMap, json['emailNotifications']) ??
-        NotificationStatus.DEFAULT
+        _$NotificationStatusEnumMap, json['emailNotifications'])
     ..audioNotifications = _$enumDecodeNullable(
-            _$NotificationStatusEnumMap, json['audioNotifications']) ??
-        NotificationStatus.DEFAULT
+        _$NotificationStatusEnumMap, json['audioNotifications'])
     ..mobilePushNotifications = _$enumDecodeNullable(
-            _$NotificationStatusEnumMap, json['mobilePushNotifications']) ??
-        NotificationStatus.DEFAULT
-    ..audioNotificationValue =
-        json['audioNotificationValue'] as String ?? 'beep'
-    ..desktopNotificationDuration =
-        json['desktopNotificationDuration'] as int ?? 0;
+        _$NotificationStatusEnumMap, json['mobilePushNotifications'])
+    ..audioNotificationValue = json['audioNotificationValue'] as String
+    ..desktopNotificationDuration = json['desktopNotificationDuration'] as int;
 }
 
 Map<String, dynamic> _$ChannelSubscriptionToJson(ChannelSubscription instance) {

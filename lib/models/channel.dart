@@ -123,28 +123,25 @@ class ChannelSubscription {
       name: 'updatedAt', includeIfNull: false, fromJson: _fromJsonToDateTime)
   DateTime updatedAt;
 
-  @JsonKey(
-      name: 'desktopNotifications', defaultValue: NotificationStatus.DEFAULT)
+  @JsonKey(name: 'desktopNotifications')
   NotificationStatus desktopNotifications;
 
-  @JsonKey(
-      name: 'disableNotifications', defaultValue: false, toJson: _toJsonBool)
+  @JsonKey(name: 'disableNotifications', toJson: _toJsonBool)
   bool disableNotifications;
 
-  @JsonKey(name: 'emailNotifications', defaultValue: NotificationStatus.DEFAULT)
+  @JsonKey(name: 'emailNotifications')
   NotificationStatus emailNotifications;
 
-  @JsonKey(name: 'audioNotifications', defaultValue: NotificationStatus.DEFAULT)
+  @JsonKey(name: 'audioNotifications')
   NotificationStatus audioNotifications;
 
-  @JsonKey(
-      name: 'mobilePushNotifications', defaultValue: NotificationStatus.DEFAULT)
+  @JsonKey(name: 'mobilePushNotifications')
   NotificationStatus mobilePushNotifications;
 
-  @JsonKey(name: 'audioNotificationValue', defaultValue: 'beep')
+  @JsonKey(name: 'audioNotificationValue')
   String audioNotificationValue;
 
-  @JsonKey(name: 'desktopNotificationDuration', defaultValue: 0)
+  @JsonKey(name: 'desktopNotificationDuration')
   int desktopNotificationDuration;
 
   factory ChannelSubscription.fromJson(Map<String, dynamic> json) =>
